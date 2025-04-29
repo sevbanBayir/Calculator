@@ -7,13 +7,9 @@ namespace Calculator
     {
         private double firstNumber = 0;
         private bool isNewNumber = true;
+        private string currentOperation = "";
 
         public Form1()
-        {
-            InitializeComponent();
-        }
-
-        private void InitializeComponent()
         {
             this.txtDisplay = new TextBox();
             this.btn1 = new Button();
@@ -27,6 +23,7 @@ namespace Calculator
             this.btn9 = new Button();
             this.btn0 = new Button();
             this.btnPlus = new Button();
+            this.btnMinus = new Button();
             this.btnEquals = new Button();
             this.btnClear = new Button();
 
@@ -70,23 +67,30 @@ namespace Calculator
             this.btnPlus.Click += OperationButton_Click;
             this.Controls.Add(btnPlus);
 
+            // Minus button
+            this.btnMinus.Text = "-";
+            this.btnMinus.Size = new System.Drawing.Size(buttonSize, buttonSize);
+            this.btnMinus.Location = new System.Drawing.Point(startX + 3 * (buttonSize + spacing), startY + (buttonSize + spacing));
+            this.btnMinus.Click += OperationButton_Click;
+            this.Controls.Add(btnMinus);
+
             // Equals button
             this.btnEquals.Text = "=";
             this.btnEquals.Size = new System.Drawing.Size(buttonSize, buttonSize);
-            this.btnEquals.Location = new System.Drawing.Point(startX + 3 * (buttonSize + spacing), startY + (buttonSize + spacing));
+            this.btnEquals.Location = new System.Drawing.Point(startX + 3 * (buttonSize + spacing), startY + 2 * (buttonSize + spacing));
             this.btnEquals.Click += EqualsButton_Click;
             this.Controls.Add(btnEquals);
 
             // Clear button
             this.btnClear.Text = "C";
             this.btnClear.Size = new System.Drawing.Size(buttonSize, buttonSize);
-            this.btnClear.Location = new System.Drawing.Point(startX + 3 * (buttonSize + spacing), startY + 2 * (buttonSize + spacing));
+            this.btnClear.Location = new System.Drawing.Point(startX + 3 * (buttonSize + spacing), startY + 3 * (buttonSize + spacing));
             this.btnClear.Click += ClearButton_Click;
             this.Controls.Add(btnClear);
 
             // Form settings
             this.Text = "Simple Calculator";
-            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.ClientSize = new System.Drawing.Size(300, 350);
             this.Controls.Add(txtDisplay);
         }
 
@@ -109,18 +113,31 @@ namespace Calculator
             if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
                 firstNumber = double.Parse(txtDisplay.Text);
+                currentOperation = ((Button)sender).Text;
                 isNewNumber = true;
             }
         }
 
         private void EqualsButton_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtDisplay.Text) && !isNewNumber)
+            if (!string.IsNullOrEmpty(txtDisplay.Text) && !isNewNumber && !string.IsNullOrEmpty(currentOperation))
             {
                 double secondNumber = double.Parse(txtDisplay.Text);
-                double result = firstNumber + secondNumber;
+                double result = 0;
+
+                switch (currentOperation)
+                {
+                    case "+":
+                        result = firstNumber + secondNumber;
+                        break;
+                    case "-":
+                        result = firstNumber - secondNumber;
+                        break;
+                }
+
                 txtDisplay.Text = result.ToString();
                 isNewNumber = true;
+                currentOperation = "";
             }
         }
 
@@ -129,10 +146,11 @@ namespace Calculator
             txtDisplay.Text = "0";
             firstNumber = 0;
             isNewNumber = true;
+            currentOperation = "";
         }
 
         private TextBox txtDisplay;
         private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
-        private Button btnPlus, btnEquals, btnClear;
+        private Button btnPlus, btnMinus, btnEquals, btnClear;
     }
 } 
