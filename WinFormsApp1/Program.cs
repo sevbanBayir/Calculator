@@ -13,4 +13,4 @@ namespace Calculator
             Application.Run(new Form1());
         }
     }
-} 
+}

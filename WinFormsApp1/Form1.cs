@@ -55,7 +55,7 @@ namespace Calculator
                 {
                     int row = (i - 1) / 3;
                     int col = (i - 1) % 3;
-                    btn.Location = new System.Drawing.Point(startX + col * (buttonSize + spacing), 
+                    btn.Location = new System.Drawing.Point(startX + col * (buttonSize + spacing),
                                                           startY + row * (buttonSize + spacing));
                 }
             }
@@ -153,4 +153,4 @@ namespace Calculator
         private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
         private Button btnPlus, btnMinus, btnEquals, btnClear;
     }
-} 
+}
